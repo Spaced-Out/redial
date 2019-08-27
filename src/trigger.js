@@ -1,3 +1,4 @@
+import allSettled from 'core-js-pure/es/promise/all-settled';
 import propName from './propName';
 
 export default (name, components, locals) => {
@@ -29,5 +30,5 @@ export default (name, components, locals) => {
       }
     });
 
-  return Promise.all(promises);
+  return allSettled(promises);
 };

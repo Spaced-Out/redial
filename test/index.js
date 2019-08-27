@@ -52,7 +52,7 @@ describe('Given a series of components have been decorated with hooks', () => {
       rejectSpy = spy();
 
       trigger('foobar', componentsWithFalsyValues, { some: 'data' })
-        .then(resolveSpy, rejectSpy);
+        .then(resolveSpy);
     });
 
     it('Then the hooks should have locals passed to them', () => {
@@ -69,8 +69,9 @@ describe('Given a series of components have been decorated with hooks', () => {
       });
 
       it('Then the lifecycle event promise should also be resolved', () => {
-        assert.equal(resolveSpy.callCount, 1);
-        assert.equal(rejectSpy.callCount, 0);
+        assert(resolveSpy.args[0][0].every(result => result.status === 'fulfilled'),
+          'args contains only fulfilled results'
+        );
       });
 
     });
@@ -83,9 +84,14 @@ describe('Given a series of components have been decorated with hooks', () => {
         setImmediate(done);
       });
 
+      /*
       it('Then the lifecycle event promise should also be rejected', () => {
         assert.equal(resolveSpy.callCount, 0);
         assert.equal(rejectSpy.callCount, 1);
+      });
+      */
+      it('Then the lifecycle event promise should also be rejected', () => {
+        assert(resolveSpy.args[0][0].some(result => result.status === 'rejected'), 'args contains a result with a reason');
       });
 
     });
@@ -194,9 +200,9 @@ describe('Given a series of components have been decorated with hooks', () => {
     });
 
     it('Then the lifecycle event promise should be rejected', () => {
-      assert.equal(resolveSpy.callCount, 0);
-      assert.equal(rejectSpy.callCount, 1);
-      assert.equal(rejectSpy.getCall(0).args[0].message, 'OHNOES');
+      assert.equal(resolveSpy.callCount, 1);
+      assert.equal(rejectSpy.callCount, 0);
+      assert.equal(resolveSpy.getCall(0).args[0][0].reason.message, 'OHNOES');
     });
 
   });
