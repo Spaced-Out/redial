@@ -1,1 +1,13 @@
-{}
+{
+  "presets": [
+    "@babel/preset-env",
+  ],
+  "env": {
+    "test": {
+      "presets": ["@babel/preset-react"],
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  }
+}

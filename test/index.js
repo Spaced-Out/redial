@@ -12,15 +12,15 @@ const makeTestObject = (hookName) => {
   });
   object.stub = stub().returns(prefetchPromise);
 
-  @provideHooks({
+  const TestComponent = provideHooks({
     [hookName]: object.stub,
     throwError: () => {
       throw new Error('OHNOES');
     }
-  })
-  class TestComponent extends Component {
+  })(
+  class _TestComponent extends Component {
     render() { return <div />; }
-  }
+  })
 
   object.component = TestComponent;
   return object;

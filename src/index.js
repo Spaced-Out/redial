@@ -1,7 +1,7 @@
 import provideHooks from './provideHooks';
 import trigger from './trigger';
 
-export default {
+export {
   provideHooks,
   trigger
 };

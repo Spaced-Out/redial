@@ -4,7 +4,7 @@
   "description": "Universal data fetching and route lifecycle management for React etc.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "babel-istanbul cover _mocha && babel-istanbul check-coverage --branches 100",
+    "test": "NODE_ENV=test nyc mocha",
     "build": "rm -rf lib/ && ./node_modules/.bin/babel -d lib/ src/",
     "prepublish": "npm run build",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
@@ -22,11 +22,27 @@
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
-    "babel-istanbul": "^0.3.20",
-    "chai": "^3.3.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.5.5",
+    "babel-plugin-istanbul": "^5.2.0",
+    "chai": "^4.2.0",
     "coveralls": "^2.11.6",
-    "mocha": "^2.3.3",
-    "react": "^0.14.1",
-    "sinon": "^1.17.1"
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "react": "^16.9.0",
+    "sinon": "^7.4.1"
+  },
+  "nyc": {
+    "require": [
+      "@babel/register"
+    ],
+    "reporter": [
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.5.5"
   }
 }
